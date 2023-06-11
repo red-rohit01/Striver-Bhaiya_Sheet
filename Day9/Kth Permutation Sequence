@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void helper(vector<int>&v,vector<int>&val,int n,int k,string& ans)
+    {
+        if(n==1)
+        {
+            ans+=to_string(v.back());
+            return;
+        }
+        int ind=k/val[n-1];
+        if(k%val[n-1]==0) ind--;
+
+        ans+=to_string(v[ind]);
+        v.erase(v.begin()+ind);
+        k-=val[n-1]*ind;
+        helper(v,val,n-1,k,ans);
+    }
+    string getPermutation(int n, int k) {
+        if(n==1) return "1";
+        vector<int>val={1,1,2,6,24,120,720,5040,40320,362880};
+        string ans="";
+        vector<int>v;
+        for(int i=1;i<=n;++i) v.push_back(i);
+        helper(v,val,n,k,ans);
+        return ans;
+    }
+};
