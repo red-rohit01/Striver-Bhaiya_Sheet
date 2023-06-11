@@ -1,0 +1,37 @@
+#include <bits/stdc++.h> 
+void helper(vector<vector<int>>&mat,int m,int n,int row,string& ans,vector<int>&colors)
+{
+    if(row==n)
+    {
+        ans="YES";
+        return;
+    }
+    for(int i=1;i<=m;++i)
+    {
+        colors[row]=i;
+        bool flag=true;
+        for(int j=0;j<n;++j)
+        {
+            if(mat[row][j]==1 && colors[j]==i)
+            {
+                flag=false;
+                break;
+            }
+        }
+        if(flag)
+        {
+            helper(mat,m,n,row+1,ans,colors);
+            if(ans=="YES") return;
+        }
+        colors[row]=0;
+    }
+    ans="NO";
+}
+string graphColoring(vector<vector<int>> &mat, int m) {
+    // Write your code here
+    string ans="";
+    int n=mat.size();
+    vector<int>colors(n);
+    helper(mat,m,n,0,ans,colors);
+    return ans;
+}
