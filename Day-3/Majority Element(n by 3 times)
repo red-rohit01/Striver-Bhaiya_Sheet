@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int n=nums.size();
+        int limit=n/3;
+        if(n==1) return nums;
+
+        int val1=INT_MIN;
+        int val2=INT_MIN;
+        int cnt1=0,cnt2=0;
+        for(int i=0;i<n;++i)
+        {
+            int curr=nums[i];
+            if (cnt1 == 0 && val2!=curr) 
+            {
+                cnt1 = 1;
+                val1 = curr;
+            }
+            else if (cnt2 == 0 && val1 != curr) 
+            {
+                cnt2=1;
+                val2=nums[i];
+            }
+            else if(curr==val1) cnt1++;
+            else if(curr==val2) cnt2++;
+            else
+            {
+                cnt1--;
+                cnt2--;
+            }
+        }
+        cnt1=0,cnt2=0;
+        vector<int>ans;
+        for(int i=0;i<n;++i)
+        {
+            if(nums[i]==val1) cnt1++;
+            if(nums[i]==val2) cnt2++;
+        }
+        if(cnt1>limit) ans.push_back(val1);
+        if(cnt2>limit) ans.push_back(val2);
+        return ans;
+    }
+};
