@@ -1,0 +1,34 @@
+int ans=0;
+class Solution {
+public:
+    void merge(vector<int>& nums,long long l,long long mid,long long h)
+    {
+        long long i=l;
+        long long j=mid+1;
+        while(i<=mid && j<=h)
+        {
+            if(1LL*nums[i]<=(2*1LL*nums[j])) i++;
+            else 
+            {
+                ans+=(mid-i+1);
+                j++;
+            }
+        }
+
+        sort(nums.begin()+l,nums.begin()+h+1);
+    }
+void mergesort(vector<int>& nums,long long l,long long h)
+{
+    if(l>=h) return;
+    long long mid=(l+h)/2;
+    mergesort(nums,l,mid);
+    mergesort(nums,mid+1,h);
+    merge(nums,l,mid,h);
+}
+    int reversePairs(vector<int>& nums) {
+        int n=nums.size();
+        ans=0;
+        mergesort(nums,0,n-1);
+        return ans;
+    }
+};
