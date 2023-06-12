@@ -1,0 +1,11 @@
+long long modexpo(long long a, long long b,long long mod) {
+    if (b == 0)
+        return 1;
+    long long p = modexpo(a, b / 2,mod) % mod;
+    p = (p * p) % mod;
+    return (b % 2 == 0) ? p : (a * p) % mod;
+}
+int modularExponentiation(int x, int n, int m) {
+	// Write your code here.
+	return modexpo(1LL*x,1LL*n,1LL*m);
+}
