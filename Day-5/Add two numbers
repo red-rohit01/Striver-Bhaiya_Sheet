@@ -1,0 +1,110 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int carry=0;
+        ListNode* p=l1;
+        ListNode* q=l2;
+        ListNode*head=NULL;
+        ListNode* prev=NULL;
+        while(p && q)
+        {
+            int val1=p->val;
+            int val2=q->val;
+            int sum=val1+val2+carry;
+
+            if(sum>=10)
+            {
+                int rk=sum%10;
+                ListNode* temp=new ListNode(rk);
+                if(head==NULL)
+                {
+                    head=temp;
+                    prev=head;
+                }
+                else 
+                {
+                    prev->next=temp;
+                    prev=prev->next;
+                }
+                carry=1;
+            }
+            else
+            {
+                ListNode* temp=new ListNode(sum);
+                if(head==NULL)
+                {
+                    head=temp;
+                    prev=head;
+                }
+                else 
+                {
+                    prev->next=temp;
+                    prev=prev->next;
+                }
+                carry=0;  
+            }
+            p=p->next;
+            q=q->next;
+        }
+        while(p)
+        {
+            int val=p->val;
+            int sum=val+carry;
+            if(sum>=10)
+            {
+                int rk=sum%10;
+                ListNode* temp=new ListNode(rk);
+                prev->next=temp;
+                prev=prev->next;
+                carry=1;
+            }
+            else
+            {
+                ListNode* temp=new ListNode(sum);
+                prev->next=temp;
+                prev=prev->next;
+                carry=0;
+            }
+            p=p->next;
+        }
+
+        while(q)
+        {
+            int val=q->val;
+            int sum=val+carry;
+            if(sum>=10)
+            {
+                int rk=sum%10;
+                ListNode* temp=new ListNode(rk);
+                prev->next=temp;
+                prev=prev->next;
+                carry=1;
+            }
+            else
+            {
+                ListNode* temp=new ListNode(sum);
+                prev->next=temp;
+                prev=prev->next;
+                carry=0;
+            }
+            q=q->next; 
+        }
+        if(carry>0)
+        {
+            ListNode* temp=new ListNode(1);
+            prev->next=temp;
+            prev=prev->next;
+        }
+        return head;
+    }
+};
