@@ -1,0 +1,41 @@
+#include <bits/stdc++.h> 
+bool check(long long mid,vector<int>&time,long long n,long long m)
+{
+	int st=0;
+	int i=0;
+	while(st<n && i<m)
+	{
+		if(time[i]>mid) return false;
+
+		long long val=mid-1LL*time[i];
+		int j=i+1;
+		while(j<m && time[j]<=val)
+		{
+			val-=(1LL*time[j]);
+			j++;
+		}
+		i=j;
+		st++;
+	}
+	if(st<=n && i>=m) return true;
+
+	return false;
+}
+long long ayushGivesNinjatest(int n, int m, vector<int> time) 
+{	
+	// Write your code here.
+	long long ans=0;
+	long long l=1;
+	long long h=1e18;
+	while(l<=h)
+	{
+		long long mid=l+(h-l)/2;
+		if(check(mid,time,n,m))
+		{
+			ans=mid;
+			h=mid-1;
+		}
+		else l=mid+1;
+	}
+	return ans;
+}
