@@ -1,0 +1,31 @@
+string longestPalindrome(string s) {
+        int len=s.size();
+        if(len<=1) return s;
+        vector<vector<bool>>dp(len,vector<bool>(len));
+        for(int i=0;i<len;++i)
+        {
+            dp[i][i]=true;
+        }
+        int mxlen=1;
+        int mx_st=0;
+
+        for(int i=len;i>=0;--i)
+        {
+            for(int dist=1;dist<(len-i);++dist)
+            {
+                int j=i+dist;
+                if(dist==1 && s[i]==s[j])
+                {
+                    dp[i][j]=true;
+                }
+                else if(s[i]==s[j]) dp[i][j]=dp[i+1][j-1];
+
+                if(dp[i][j] && mxlen<(j-i+1))
+                {
+                    mxlen=j-i+1;
+                    mx_st=i;
+                }
+            }
+        }
+        return s.substr(mx_st,mxlen);
+    }
