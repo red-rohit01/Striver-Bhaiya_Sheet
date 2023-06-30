@@ -1,0 +1,32 @@
+#include <bits/stdc++.h> 
+
+vector<int> calZarray(string str,int n)
+{
+    vector<int>z(n);
+    for(int i=1,l=0,r=0;i<n;++i)
+    {
+        if(i<=r) z[i]=min((r-i+1),z[i-l]);
+
+        while((i+z[i])<n && str[i+z[i]]==str[z[i]]) z[i]++;
+
+        if((i+z[i]-1)>r)
+        {
+            l=i;
+            r=i+z[i]-1;
+        }
+    }
+    return z;
+}
+bool findPattern(string p, string s)
+{
+    // Write your code here.
+    string str=p+'#'+s;
+    int n_len=str.size();
+    int p_len=p.size();
+    vector<int>z=calZarray(str,n_len);
+    for(int i=0;i<n_len;++i)
+    {
+        if(z[i]==p_len) return true;
+    }
+    return false;
+}
