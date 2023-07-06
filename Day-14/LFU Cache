@@ -1,0 +1,64 @@
+#include <bits/stdc++.h> 
+class LFUCache
+{
+public:
+    int sz;
+    int minfreq;
+    unordered_map<int,pair<int,int>>cache;
+    unordered_map<int,list<int>>freq_mp;
+    unordered_map<int,list<int>::iterator>pos;
+    LFUCache(int capacity)
+    {
+        // Write your code here.
+        sz=capacity;
+        minfreq=0;
+    }
+
+    int get(int key)
+    {
+        // Write your code here.
+        if(cache.find(key)!=cache.end())
+        {
+            int freq=cache[key].second;
+            freq_mp[freq].erase(pos[key]);
+            freq++;
+
+            freq_mp[freq].push_front(key);
+            pos[key]=freq_mp[freq].begin();
+
+            if(freq_mp[minfreq].size()==0) minfreq++;
+
+            return cache[key].first;
+        }
+        return -1;
+    }
+
+    void put(int key, int value)
+    {
+        // Write your code here.
+        if(cache.find(key)!=cache.end())
+        {
+            cache[key].first=value;
+            int freq=cache[key].second;
+            freq_mp[freq].erase(pos[key]);
+            freq++;
+
+            freq_mp[freq].push_front(key);
+            pos[key]=freq_mp[freq].begin();
+
+            if(freq_mp[minfreq].empty()) minfreq++;
+        }
+        if(sz==cache.size())
+        {
+            int curr_key=freq_mp[minfreq].back();
+            cache.erase(curr_key);
+            pos.erase(curr_key);
+            freq_mp[minfreq].pop_front();
+
+        }
+            cache[key]={value,1};
+            freq_mp[1].push_front(key);
+            pos[key]=freq_mp[1].begin();
+            minfreq=1;
+    }
+};
