@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* helper(vector<int>& preorder,unordered_map<int,int>&rk,int l,int r,int& ind)
+    {
+        if(l>r) return NULL;
+
+        TreeNode* root=new TreeNode(preorder[ind]);
+        int temp=rk[preorder[ind]];
+        ind++;
+        root->left=helper(preorder,rk,l,temp-1,ind);               // For preorder traversal left should be prior to right and
+        root->right=helper(preorder,rk,temp+1,r,ind);              // in postorder traversal right should be prior to left.
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        unordered_map<int,int>rk;
+        int len=inorder.size()-1;
+        int ind=0;
+        for(int i=0;i<=len;++i) rk[inorder[i]]=i;
+        return helper(preorder,rk,0,len,ind);
+    }
+};
