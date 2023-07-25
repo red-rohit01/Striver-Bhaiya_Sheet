@@ -1,55 +1,71 @@
-class MyQueue {
-public:
-    stack<int>s1,s2;
-    MyQueue() {
-        
+#include <bits/stdc++.h> 
+
+class Queue 
+{
+    int size;
+    int *arr;
+    int qfront;
+    int rear;
+  public:
+    Queue()
+    {
+    size=100001;
+    arr=new int[size];
+    qfront=0;
+    rear=0;    
     }
-    
-    void push(int x) {
-        s1.push(x);
+
+    bool isEmpty() 
+    {
+     if(qfront==rear)
+     {
+         return true;
+     }  
+     else
+     {
+         return false;
+     }
     }
-    
-    int pop() {
-        while(!s1.empty())
+
+    void enqueue(int data)
+    {
+        if(rear!=size)
         {
-            s2.push(s1.top());
-            s1.pop();
+            arr[rear]=data;
+            rear++;
         }
-        int l=s2.top();
-        s2.pop();
-        while(!s2.empty())
-        {
-            s1.push(s2.top());
-            s2.pop();
-        }
-        return l;
     }
-    
-    int peek() {
-        while(!s1.empty())
+
+    int dequeue() 
+    {
+        if(rear!=qfront)
         {
-            s2.push(s1.top());
-            s1.pop();
+            int ans=arr[qfront];
+            arr[qfront]=-1;
+            qfront++;
+            if(qfront==rear)
+            {
+                qfront=0;
+                rear=0;
+            }
+            return ans;
         }
-        int l=s2.top();
-        while(!s2.empty())
+        else
         {
-            s1.push(s2.top());
-            s2.pop();
+            return -1;
         }
-        return l;
     }
-    
-    bool empty() {
-        return s1.empty();
+
+    int front() 
+    {
+        if(rear==qfront)
+        {
+            return -1;
+        }
+        else
+        {
+            return arr[qfront];
+        }
     }
 };
 
-/**
- * Your MyQueue object will be instantiated and called as such:
- * MyQueue* obj = new MyQueue();
- * obj->push(x);
- * int param_2 = obj->pop();
- * int param_3 = obj->peek();
- * bool param_4 = obj->empty();
- */
